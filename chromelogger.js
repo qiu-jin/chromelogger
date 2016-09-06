@@ -184,6 +184,14 @@
         chrome.tabs.onActivated.addListener(_handleTabActivated);
         chrome.tabs.onCreated.addListener(_handleTabEvent);
         chrome.tabs.onUpdated.addListener(_handleTabUpdated);
+        
+        chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
+            if (_getHost(details.url) in localStorage) {
+                var headers = details.requestHeaders;
+                headers[headers.length] = {"name": "Accept-Logger-Data", "value": ("accept_logger_data" in localStorage ? localStorage["accept_logger_data"] : "ChromeLogger")};
+        		return {"requestHeaders": headers};
+            }
+        }, {urls : ["<all_urls>"]}, ["requestHeaders", "blocking"]);
 
         chrome.webRequest.onResponseStarted.addListener(function(details) {
             if (tabsWithExtensionEnabled.indexOf(details.tabId) !== -1) {
