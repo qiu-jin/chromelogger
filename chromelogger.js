@@ -188,7 +188,9 @@
         chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
             if (_getHost(details.url) in localStorage) {
                 var headers = details.requestHeaders;
-                headers[headers.length] = {"name": "Accept-Logger-Data", "value": ("accept_logger_data" in localStorage ? localStorage["accept_logger_data"] : "ChromeLogger")};
+                if ("accept_logger_data" in localStorage && localStorage["accept_logger_data"]) {
+                    headers[headers.length] = {"name": "Accept-Logger-Data", "value": localStorage["accept_logger_data"]};
+                }
         		return {"requestHeaders": headers};
             }
         }, {urls : ["<all_urls>"]}, ["requestHeaders", "blocking"]);
