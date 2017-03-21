@@ -1,3 +1,10 @@
+## Change Log
+
+1. Request header Accept-Logger-Data default value is: ChromeLogger
+2. You can set this value in the option page
+3. The server may decide whether to return response header X-ChromeLogger-Data based on this value
+4. If Accept-Logger-Data value is empty not send this request header
+
 ## About
 
 This is the official repository of the Chrome Logger extension for Google Chrome.
